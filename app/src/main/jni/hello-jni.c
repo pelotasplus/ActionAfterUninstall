@@ -41,6 +41,25 @@ Java_pl_pelotasplus_actionafteruninstall_MainActivity_stringFromJNI(JNIEnv* env,
 #define TAG "Native"
 #define DIRECTORY   "/data/data/pl.pelotasplus.actionafteruninstall"
 
+void startIntent(void) {
+	pid_t p = fork();
+	if (p == 0) {
+		__android_log_print(ANDROID_LOG_INFO, TAG, "startIntent %d", getpid());
+
+//			        execlp("am", "am", "start", "-a android.intent.action.VIEW", "-d http://droidcon.de", NULL);
+//			        execlp("top", "/system/bin/top", NULL);
+//			        execlp("/system/bin/am", "am", "start", "com.android.browser", NULL);
+//			        execlp("/system/bin/am", "am", "start", "-a android.intent.action.VIEW", "-d http://droidcon.de", NULL);
+//			        system("/system/bin/am start com.android.browser &", NULL);
+        system("/system/bin/am start --user 0 -a android.intent.action.VIEW -d http://droidcon.de");
+//        system("/data/data/start.sh");
+
+        __android_log_print(ANDROID_LOG_INFO, TAG, "After startintent %d", getpid());
+    } else {
+    	__android_log_print(ANDROID_LOG_INFO, TAG, "startIntent %d", getpid());
+    }
+}
+
 void observer(void) {
 	int length, i = 0;
 	int fd;
@@ -78,33 +97,14 @@ void observer(void) {
 				    // am start -a android.intent.action.VIEW -d http://droidcon.de
 
 					startIntent();
-
-			        }
 				}
+			}
 		}
 		i += EVENT_SIZE + event->len;
 	}
 
 	(void) inotify_rm_watch(fd, wd);
 	(void) close(fd);
-}
-
-void startIntent(void) {
-	pid_t p = fork();
-	if (p == 0) {
-		__android_log_print(ANDROID_LOG_INFO, TAG, "startIntent");
-
-//			        execlp("am", "am", "start", "-a android.intent.action.VIEW", "-d http://droidcon.de", NULL);
-//			        execlp("top", "/system/bin/top", NULL);
-//			        execlp("/system/bin/am", "am", "start", "com.android.browser", NULL);
-//			        execlp("/system/bin/am", "am", "start", "-a android.intent.action.VIEW", "-d http://droidcon.de", NULL);
-//			        system("/system/bin/am start com.android.browser &", NULL);
-//			        system("/system/bin/am start -a android.intent.action.VIEW -d http://droidcon.de"); //, NULL);
-
-        system("/data/data/start.sh");
-
-        __android_log_print(ANDROID_LOG_INFO, TAG, "After startintent");
-    }
 }
 
 static void *observer_thread(void *arg) {

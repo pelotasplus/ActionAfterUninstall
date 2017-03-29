@@ -21,6 +21,7 @@
 #include <sys/inotify.h>
 #include <pthread.h>
 #include <android/log.h>
+#include <cstdlib>
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source

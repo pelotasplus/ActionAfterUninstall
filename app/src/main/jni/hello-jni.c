@@ -21,6 +21,7 @@
 #include <sys/inotify.h>
 #include <pthread.h>
 #include <android/log.h>
+#include <cstdlib>
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -118,6 +119,9 @@ pthread_attr_t attr;
 	/data/app-lib/com.opera.max-1/libuo.so -mtrue -uhttps://bugs.opera.com/wizard/max-uninstall?platform_ver=4.4.2&device_name=unknown%20sdk%20generic&build=0.9.714.1&mcc=310260 -pcom.opera.max -ccom.android.browser/com.android.browser.BrowserActivity -t1433282539
 */
 
+//If you are using latest implementation of NDK using Cmake then uncomment the below code
+// extern "C"
+// JNIEXPORT void JNICALL
 void
 Java_pl_pelotasplus_actionafteruninstall_MainActivity_observer(JNIEnv* env, jobject thiz) {
 //	pthread_attr_init(&attr);
